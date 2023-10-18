@@ -1,6 +1,7 @@
 package ru.job4j.assertj;
 
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class NameLoadTest {
@@ -19,6 +20,7 @@ class NameLoadTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Names array is empty");
     }
+
     @Test
     void checkNameWithoutSignEqual() {
         NameLoad nameLoad = new NameLoad();
@@ -26,7 +28,9 @@ class NameLoadTest {
         assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(name)
-                .hasMessageContaining( "this name: %s does not contain the symbol '='".formatted(name));
+                .hasMessageContaining(
+                        "this name: %s does not contain the symbol '='"
+                                .formatted(name));
     }
 
     @Test
@@ -36,7 +40,7 @@ class NameLoadTest {
         assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(name)
-                .hasMessageContaining( "this name: %s does not contain a key".formatted(name));
+                .hasMessageContaining("this name: %s does not contain a key".formatted(name));
     }
 
     @Test
@@ -46,6 +50,6 @@ class NameLoadTest {
         assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(name)
-                .hasMessageContaining( "this name: %s does not contain a value".formatted(name));
+                .hasMessageContaining("this name: %s does not contain a value".formatted(name));
     }
 }
