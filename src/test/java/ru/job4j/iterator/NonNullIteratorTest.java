@@ -12,7 +12,8 @@ class NonNullIteratorTest {
 
     @BeforeEach
     public void setUp() {
-        iterator = new NonNullIterator(new Integer[]{ null, null, 2, null, null, null, -4, null, 6, null});
+        iterator = new NonNullIterator(new Integer[]{
+                null, null, 2, null, null, null, -4, null, 6, null});
     }
 
     @Test
