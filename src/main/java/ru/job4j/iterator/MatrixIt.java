@@ -14,16 +14,11 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        while (row < data.length && !rsl) {
-            if (column < data[row].length) {
-                rsl = true;
-            } else {
-                row++;
-                column = 0;
-            }
+        while (row < data.length && !(column < data[row].length)) {
+            row++;
+            column = 0;
         }
-        return rsl;
+        return row < data.length && column < data[row].length;
     }
 
     @Override
