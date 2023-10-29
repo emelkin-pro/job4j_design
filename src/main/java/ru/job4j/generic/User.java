@@ -6,7 +6,7 @@ public class User extends Base {
 
     public User(String id, String name) {
         super(id);
-        this.username = name;
+        username = name;
     }
 
     public String getUsername() {

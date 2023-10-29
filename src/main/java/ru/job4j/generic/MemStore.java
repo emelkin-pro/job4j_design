@@ -9,24 +9,24 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public void add(T model) {
-        this.storage.putIfAbsent(model.getId(), model);
+        storage.putIfAbsent(model.getId(), model);
     }
 
     @Override
     public boolean replace(String id, T model) {
-        if (this.storage.containsKey(id)) {
-            this.storage.put(id, model);
+        if (storage.containsKey(id)) {
+            storage.put(id, model);
         }
-        return this.storage.containsKey(id);
+        return storage.containsKey(id);
     }
 
     @Override
     public void delete(String id) {
-        this.storage.remove(id);
+        storage.remove(id);
     }
 
     @Override
     public T findById(String id) {
-        return this.storage.get(id);
+        return storage.get(id);
     }
 }
