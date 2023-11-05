@@ -26,19 +26,15 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         if (container.length == size) {
             grow();
         }
-        container[size] = value;
-        size++;
+        container[size++] = value;
     }
 
     @Override
     public T set(int index, T newValue) {
-        if (Objects.checkIndex(index, size) != index) {
-            throw new IndexOutOfBoundsException();
-        }
+        T rsl = container[Objects.checkIndex(index, size)];
         if (container.length == size) {
             grow();
         }
-        T rsl = container[index];
         System.arraycopy(container, index,
                 container, index + 1,
                 size - index);
@@ -49,26 +45,18 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public T remove(int index) {
         modCount++;
+        T rsl = container[Objects.checkIndex(index, size)];
         final int newSize = size - 1;
-        if (Objects.checkIndex(index, size) == size) {
-            throw new IndexOutOfBoundsException();
-        }
-        T rsl = container[index];
-        if (Objects.checkIndex(index, newSize) == index) {
-            System.arraycopy(container, index + 1,
-                    container, index, newSize - index);
-            size = newSize;
-            container[size] = null;
-        }
+        System.arraycopy(container, index + 1,
+                container, index, newSize - index);
+        size = newSize;
+        container[size] = null;
         return rsl;
     }
 
     @Override
     public T get(int index) {
-        if (Objects.checkIndex(index, size) != index) {
-            throw new IndexOutOfBoundsException();
-        }
-        return container[index];
+        return container[Objects.checkIndex(index, size)];
     }
 
     @Override
