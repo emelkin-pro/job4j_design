@@ -11,17 +11,17 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
     private int modCount;
     private Node<E> head;
 
-    private Node<E> last;
-
     @Override
     public void add(E value) {
-        final Node<E> lst = last;
         final Node<E> newNode = new Node<>(value, null);
-        last = newNode;
+        Node<E> last = head;
         if (head == null) {
             head = newNode;
         } else {
-            lst.next = newNode;
+            while (last.next != null) {
+                last = last.next;
+            }
+            last.next = newNode;
         }
         size++;
         modCount++;
