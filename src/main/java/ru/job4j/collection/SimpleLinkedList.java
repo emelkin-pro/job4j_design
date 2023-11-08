@@ -29,8 +29,9 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
 
     @Override
     public E get(int index) {
+        Objects.checkIndex(index, size);
         Iterator<E> iterator = this.iterator();
-        for (int i = 0; i < Objects.checkIndex(index, size); i++) {
+        for (int i = 0; i < index; i++) {
             iterator.next();
         }
         return iterator.next();
@@ -48,7 +49,13 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return pointer == null ? head != null : pointer.next != null;
+                boolean rsl;
+                if (pointer == null) {
+                    rsl = head != null;
+                } else {
+                    rsl = pointer.next != null;
+                }
+                return rsl;
             }
 
             @Override
@@ -56,7 +63,11 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                pointer = pointer == null ? head : pointer.next;
+                if (pointer == null) {
+                    pointer = head;
+                } else {
+                    pointer = pointer.next;
+                }
                 return pointer.item;
             }
         };
