@@ -21,6 +21,11 @@ class SimpleStackTest {
         stack.push(3);
         stack.push(4);
         assertThat(stack.pop()).isEqualTo(4);
+        assertThat(stack.pop()).isEqualTo(3);
+        assertThat(stack.pop()).isEqualTo(2);
+        assertThat(stack.pop()).isEqualTo(1);
+        assertThatThrownBy(stack::pop)
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
