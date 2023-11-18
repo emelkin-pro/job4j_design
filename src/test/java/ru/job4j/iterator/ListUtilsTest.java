@@ -54,7 +54,6 @@ class ListUtilsTest {
         assertThat(input).hasSize(2).containsSequence(1, 3);
     }
 
-
     @Test
     void whenReplaceIf3on322() {
         ListUtils.replaceIf(input, x -> x == 3, 322);
@@ -96,6 +95,4 @@ class ListUtilsTest {
         ListUtils.removeAll(input, toDelete);
         assertThat(input).hasSize(5).containsSequence(3, 5, 6, 8, 9).doesNotContain(1, 10);
     }
-
-
 }
