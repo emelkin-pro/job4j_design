@@ -84,8 +84,9 @@ class ListUtilsTest {
     @Test
     void whenRemoveAll() {
         input = new ArrayList<>(Arrays.asList(1, 3, 5, 6, 8, 9, 10));
-        ListUtils.removeAll(input, input);
-        assertThat(input).hasSize(0).doesNotContain(3, 5, 6, 8, 9, 10);
+        List<Integer> toDelete = new ArrayList<>(Arrays.asList(1, 3, 5, 6, 8, 9, 10));
+        ListUtils.removeAll(input, toDelete);
+        assertThat(input).hasSize(0).doesNotContain(1, 3, 5, 6, 8, 9, 10);
     }
 
     @Test
