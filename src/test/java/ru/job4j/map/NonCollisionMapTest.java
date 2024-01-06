@@ -2,7 +2,9 @@ package ru.job4j.map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.*;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -63,24 +65,21 @@ class NonCollisionMapTest {
         assertThat(iterator.next()).isEqualTo(1);
         assertThat(iterator.next()).isEqualTo(4);
         assertThat(iterator.hasNext()).isFalse();
-        assertThatThrownBy(iterator::next)
-                .isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(iterator::next).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
     void whenConcurrentIteratorAdd() {
         Iterator<Integer> iterator = map.iterator();
         map.put(0, "0");
-        assertThatThrownBy(iterator::hasNext)
-                .isInstanceOf(ConcurrentModificationException.class);
+        assertThatThrownBy(iterator::hasNext).isInstanceOf(ConcurrentModificationException.class);
     }
 
     @Test
     void whenConcurrentIteratorRemove() {
         Iterator<Integer> iterator = map.iterator();
         map.remove(1);
-        assertThatThrownBy(iterator::hasNext)
-                .isInstanceOf(ConcurrentModificationException.class);
+        assertThatThrownBy(iterator::hasNext).isInstanceOf(ConcurrentModificationException.class);
     }
 
     @Test
@@ -123,7 +122,6 @@ class NonCollisionMapTest {
         assertThat(map).hasSize(4);
     }
 
-
     @Test
     void whenCheckPutZeroAndNull() {
         SimpleMap<Integer, String> map = new NonCollisionMap<>();
@@ -156,10 +154,10 @@ class NonCollisionMapTest {
     void whenPutDuplicate() {
         SimpleMap<Integer, String> map = new NonCollisionMap<>();
         assertThat(map.put(0, "0")).isTrue();
-        assertThat(map.put(322,"0")).isTrue();
-        assertThat(map.put(20,"0")).isTrue();
-        assertThat(map.put(20,"0")).isFalse();
-        assertThat(map.put(322,"1")).isFalse();
+        assertThat(map.put(322, "0")).isTrue();
+        assertThat(map.put(20, "0")).isTrue();
+        assertThat(map.put(20, "0")).isFalse();
+        assertThat(map.put(322, "1")).isFalse();
         assertThat(map.put(0, "1")).isFalse();
         assertThat(map.put(null, "1")).isFalse();
         assertThat(map.get(null)).isNull();
@@ -205,6 +203,7 @@ class NonCollisionMapTest {
         assertThat(map.get(0)).isEqualTo("0");
         assertThat(map.put(8, "0")).isFalse();
     }
+
     @Test
     void whenPut0AndTryGet8() {
         SimpleMap<Integer, String> map = new NonCollisionMap<>();
@@ -213,6 +212,7 @@ class NonCollisionMapTest {
         assertThat(map.put(8, "0")).isFalse();
         assertThat(map.get(8)).isNull();
     }
+
     @Test
     void whenPut0AndTryRemove8() {
         SimpleMap<Integer, String> map = new NonCollisionMap<>();
