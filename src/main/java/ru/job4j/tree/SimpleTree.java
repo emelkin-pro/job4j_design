@@ -14,7 +14,7 @@ public class SimpleTree<E> implements Tree<E> {
         boolean result = false;
         if (findBy(parent).isPresent() && !findBy(child).isPresent()) {
             Node parentNode = findBy(parent).get();
-            parentNode.children.add(new Node(child));
+            parentNode.getChildren().add(new Node(child));
             result = true;
         }
         return result;
@@ -27,11 +27,11 @@ public class SimpleTree<E> implements Tree<E> {
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> element = data.poll();
-            if (element.value.equals(value)) {
+            if (element.getValue().equals(value)) {
                 result = Optional.of(element);
                 break;
             }
-            data.addAll(element.children);
+            data.addAll(element.getChildren());
         }
         return result;
     }
