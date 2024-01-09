@@ -48,5 +48,4 @@ public class SimpleTree<E> implements Tree<E> {
         Predicate<Node<E>> doesNotBi = x -> x.getChildren().size() >= 3;
         return findByPredicate(doesNotBi).isEmpty();
     }
-
 }
