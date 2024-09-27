@@ -22,6 +22,8 @@ public class Config {
             reader.lines().filter(s -> !(Objects.isNull(s) || s.equals("") || s.contains("#")))
                     .forEach(s -> {
                         String[] strArr = s.split("=", 2);
+
+
                         if (strArr[0].equals("") || strArr[1].equals("")) {
                             throw new IllegalArgumentException();
                         } else {
