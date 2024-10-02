@@ -33,7 +33,7 @@ class AnalysisTest {
         analysis.unavailable(source.getPath(), target.getPath());
 
         try (BufferedReader input = new BufferedReader(new FileReader(target))) {
-            input.lines().forEach(s -> result.append(s).append("\n"));
+            input.lines().forEach(s -> result.append(s).append(System.lineSeparator()));
         }
         assertThat("""
                 10:57:01;10:59:01;
