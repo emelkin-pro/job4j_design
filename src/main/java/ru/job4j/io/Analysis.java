@@ -25,7 +25,9 @@ public class Analysis {
                         && !Objects.isNull(str)
                         && !(str.contains("400")
                         || str.contains("500"))) {
-                    rsl.append(str.split(" ", 2)[1]).append(";\n");
+                    rsl.append(str.split(" ", 2)[1])
+                            .append(";")
+                            .append(System.lineSeparator());
                     fall = false;
                 }
             }
