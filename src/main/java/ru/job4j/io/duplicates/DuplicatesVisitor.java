@@ -8,13 +8,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    private final HashMap<FileProperty, List<Path>> uniqFileFileProperty = new HashMap<>();
+    private final Map<FileProperty, List<Path>> uniqFileFileProperty = new HashMap<>();
 
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         FileProperty newFile = new FileProperty(attrs.size(), file.getFileName().toString());
