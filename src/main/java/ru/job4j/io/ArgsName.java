@@ -24,21 +24,26 @@ public class ArgsName {
                 .forEach(x -> {
                     if (Objects.nonNull(x) && !x.contains("=")) {
                         throw new IllegalArgumentException(
-                                "Error: This argument '" + x + "' does not contain an equal sign");
+                                String.format(
+                                        "Error: This argument '%s'"
+                                                + " does not contain an equal sign", x));
                     }
                     if (x.charAt(0) != '-') {
                         throw new IllegalArgumentException(
-                                "Error: This argument '" + x
-                                        + "' does not start with a '-' character");
+                                String.format(
+                                        "Error: This argument '%s'"
+                                                + " does not start with a '-' character", x));
                     }
                     String[] str = x.split("=", 2);
                     if ("".contains(str[1])) {
                         throw new IllegalArgumentException(
-                                "Error: This argument '" + x + "' does not contain a value");
+                                String.format(
+                                        "Error: This argument '%s' does not contain a value", x));
                     }
                     if (str[0].equals("-") || "".contains(str[0])) {
                         throw new IllegalArgumentException(
-                                "Error: This argument '" + x + "' does not contain a key");
+                                String.format(
+                                        "Error: This argument '%s' does not contain a key", x));
                     }
                     values.put(str[0].substring(str[0].indexOf("-") + 1), str[1]);
                 });
