@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -44,6 +45,10 @@ public class Zip {
         }
         Zip zip = new Zip();
         ArgsName argsName = ArgsName.of(args);
+        Path directory = Path.of(argsName.get("d"));
+        if (!Files.exists(directory) || !Files.isDirectory(directory)) {
+            throw new IllegalArgumentException("directory is invalid: " + directory);
+        }
         List<Path> filesForPack = Search.search(
                 Path.of(argsName.get("d")), path ->
                         !path.toFile().getName().endsWith(argsName.get("e")));
