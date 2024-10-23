@@ -41,8 +41,7 @@ public class ConsoleChat {
                 continuousWork = true;
             }
             if (continuousWork) {
-                int random;
-                random = (int) (Math.random() * (answers.size()));
+                int random = (int) (Math.random() * (answers.size()));
                 String answer = answers.get(random);
                 chat.add(ask.toString());
                 chat.add(answer);
