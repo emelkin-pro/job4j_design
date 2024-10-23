@@ -19,7 +19,6 @@ public class ConsoleChat {
     }
 
     public void run() {
-        /*содержит логику чата*/
         Scanner scanner = new Scanner(System.in);
         List<String> answers = readPhrases();
         boolean continuousWork = true;
@@ -52,7 +51,6 @@ public class ConsoleChat {
 
     private List<String> readPhrases() {
         List<String> phrases = new ArrayList<>();
-        /*читает фразы из файла*/
         try (BufferedReader input = new BufferedReader(new FileReader(botAnswers))) {
             input.lines().forEach(phrases::add);
             saveLog(phrases);
