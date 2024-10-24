@@ -19,7 +19,7 @@ public class Zip {
         if (!Files.exists(directory) || !Files.isDirectory(directory)) {
             throw new IllegalArgumentException("directory is invalid: " + directory);
         }
-        if (outputFile.exists() && !outputFile.canWrite()) {
+        if (!this.outputFile.getName().contains(".zip")) {
             throw new IllegalArgumentException("target is invalid: " + outputFile);
         }
     }
