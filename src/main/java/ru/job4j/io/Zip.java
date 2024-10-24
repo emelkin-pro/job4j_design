@@ -8,9 +8,30 @@ import java.util.zip.ZipOutputStream;
 import java.nio.file.Path;
 
 public class Zip {
+    private Path directory;
+    private String exclude;
+    private File outputFile;
+
+    private void check(ArgsName argsName) {
+        this.directory = Path.of(argsName.get("d"));
+        this.exclude = argsName.get("e");
+        this.outputFile = new File(argsName.get("o"));
+        if (!Files.exists(directory) || !Files.isDirectory(directory)) {
+            throw new IllegalArgumentException("directory is invalid: " + directory);
+        }
+        if (outputFile.exists() && !outputFile.canWrite()) {
+            throw new IllegalArgumentException("target is invalid: " + outputFile);
+        }
+    }
+
+    private void zippingFiles() {
+        List<Path> filesForPack = Search.search(this.directory, path ->
+                !path.toFile().getName().endsWith(exclude));
+        filesForPack.forEach(System.out::println);
+        this.packFiles(filesForPack, outputFile);
+    }
 
     public void packFiles(List<Path> sources, File target) {
-
         try (ZipOutputStream zip = new ZipOutputStream(
                 new BufferedOutputStream(new FileOutputStream(target)))) {
             for (Path source : sources) {
@@ -45,14 +66,7 @@ public class Zip {
         }
         Zip zip = new Zip();
         ArgsName argsName = ArgsName.of(args);
-        Path directory = Path.of(argsName.get("d"));
-        if (!Files.exists(directory) || !Files.isDirectory(directory)) {
-            throw new IllegalArgumentException("directory is invalid: " + directory);
-        }
-        List<Path> filesForPack = Search.search(
-                Path.of(argsName.get("d")), path ->
-                        !path.toFile().getName().endsWith(argsName.get("e")));
-        filesForPack.forEach(System.out::println);
-        zip.packFiles(filesForPack, new File(argsName.get("o")));
+        zip.check(argsName);
+        zip.zippingFiles();
     }
 }
