@@ -13,7 +13,7 @@ public class CSVReader {
         List<StringBuilder> table = new ArrayList<>();
         boolean first = true;
         List<String> filter = List.of(argsName.get("filter").split(","));
-        List<Integer> pattern = new ArrayList<>(filter.size());
+        int[] pattern = new int[filter.size()];
         while (scanner.hasNextLine()) {
             StringBuilder row = new StringBuilder();
             List<String> strList = List.of(scanner.nextLine().split(separator));
@@ -24,27 +24,22 @@ public class CSVReader {
                     for (int j = 0; j < filter.size(); j++) {
                         if (strList.get(i).equals(filter.get(j))) {
                             if (i == 0) {
-                                pattern.add(i);
+                                pattern[0] = i;
                             } else {
-                                if (pattern.size() < j) {
-                                    pattern.add(i);
-                                } else {
-                                    pattern.add(j, i);
-                                }
+                                pattern[j] = i;
                             }
                         }
                     }
                 }
-                for (Integer integer : pattern) {
+                for (int integer : pattern) {
                     if (row.toString().equals("")) {
                         row.append(strList.get(integer));
                     } else {
                         row.append(separator).append(strList.get(integer));
                     }
                 }
-
             } else {
-                for (Integer integer : pattern) {
+                for (int integer : pattern) {
                     if (row.toString().equals("")) {
                         row.append(strList.get(integer));
                     } else {
@@ -54,7 +49,6 @@ public class CSVReader {
             }
             table.add(row);
         }
-
         try (PrintWriter output = new PrintWriter(
                 new BufferedOutputStream(
                         new FileOutputStream(argsName.get("out"))
