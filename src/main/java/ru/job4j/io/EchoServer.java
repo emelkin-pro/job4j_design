@@ -3,6 +3,7 @@ package ru.job4j.io;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.regex.Pattern;
 
 public class EchoServer {
     public static void main(String[] args) throws IOException {
@@ -13,10 +14,28 @@ public class EchoServer {
                      BufferedReader input = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String line = input.readLine();
-                    if (line.contains("msg=Bye")) {
+                    Pattern exit = Pattern.compile("msg=Exit");
+                    Pattern hellow = Pattern.compile("msg=Hello");
+                    Pattern what = Pattern.compile("msg=");
+                    if (hellow.matcher(line).find()) {
+                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        output.write("Hello, dear friend.\r\n\r\n".getBytes());
+                        output.flush();
+
+                    }
+                    if (exit.matcher(line).find()) {
+                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        output.write("GoodBye\r\n\r\n".getBytes());
+                        output.flush();
                         server.close();
                     }
-                    output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                    if (!hellow.matcher(line).find()
+                            && !exit.matcher(line).find()
+                            && what.matcher(line).find()) {
+                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        output.write("What\r\n\r\n".getBytes());
+                        output.flush();
+                    }
                     for (String string = input.readLine();
                          string != null && !string.isEmpty();
                          string = input.readLine()) {
