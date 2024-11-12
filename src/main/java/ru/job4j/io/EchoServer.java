@@ -34,6 +34,7 @@ public class EchoServer {
                         output.write("What\r\n\r\n".getBytes());
                         output.flush();
                     }
+
                     for (String string = input.readLine();
                          string != null && !string.isEmpty();
                          string = input.readLine()) {
