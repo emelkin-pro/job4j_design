@@ -8,10 +8,22 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        String str = "kek";
+        char k = 'k';
+        int integer = 777;
+        short shortValue = 32767;
+        byte byteValue = 127;
+        double doubleValue = 1.1123123;
+        float floatValue = 1.432432F;
+        boolean booleanValue = true;
+
+        LOG.info("String: {}", str);
+        LOG.info("char: {}", k);
+        LOG.info("int: {}", integer);
+        LOG.info("short: {}", shortValue);
+        LOG.info("byte: {}", byteValue);
+        LOG.info("double: {}", doubleValue);
+        LOG.info("float: {}", floatValue);
+        LOG.info("boolean: {}", booleanValue);
     }
 }
