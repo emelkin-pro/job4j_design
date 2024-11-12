@@ -13,18 +13,17 @@ public class EchoServer {
                 try (OutputStream output = socket.getOutputStream();
                      BufferedReader input = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
+                    output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String line = input.readLine();
                     Pattern exit = Pattern.compile("msg=Exit");
                     Pattern hellow = Pattern.compile("msg=Hello");
                     Pattern what = Pattern.compile("msg=");
                     if (hellow.matcher(line).find()) {
-                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         output.write("Hello, dear friend.\r\n\r\n".getBytes());
                         output.flush();
 
                     }
                     if (exit.matcher(line).find()) {
-                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         output.write("GoodBye\r\n\r\n".getBytes());
                         output.flush();
                         server.close();
@@ -32,7 +31,6 @@ public class EchoServer {
                     if (!hellow.matcher(line).find()
                             && !exit.matcher(line).find()
                             && what.matcher(line).find()) {
-                        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         output.write("What\r\n\r\n".getBytes());
                         output.flush();
                     }
