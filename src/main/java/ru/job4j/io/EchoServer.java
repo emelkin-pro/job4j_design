@@ -5,8 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class EchoServer {
-    public static void main(String[] args) throws IOException {
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+
+    public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
@@ -16,9 +21,9 @@ public class EchoServer {
                     output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String line = input.readLine();
                     Pattern exit = Pattern.compile("msg=Exit");
-                    Pattern hellow = Pattern.compile("msg=Hello");
+                    Pattern hello = Pattern.compile("msg=Hello");
                     Pattern what = Pattern.compile("msg=");
-                    if (hellow.matcher(line).find()) {
+                    if (hello.matcher(line).find()) {
                         output.write("Hello, dear friend.\r\n\r\n".getBytes());
                         output.flush();
 
@@ -28,7 +33,7 @@ public class EchoServer {
                         output.flush();
                         server.close();
                     }
-                    if (!hellow.matcher(line).find()
+                    if (!hello.matcher(line).find()
                             && !exit.matcher(line).find()
                             && what.matcher(line).find()) {
                         output.write("What\r\n\r\n".getBytes());
@@ -40,8 +45,12 @@ public class EchoServer {
                         System.out.println(string);
                     }
                     output.flush();
+                } catch (IOException e) {
+                    LOG.error("Error: ", e);
                 }
             }
+        } catch (IOException e) {
+            LOG.error("Error: ", e);
         }
     }
 }
