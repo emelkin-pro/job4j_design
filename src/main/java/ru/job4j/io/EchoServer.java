@@ -28,6 +28,7 @@ public class EchoServer {
                         output.flush();
                         server.close();
                     }
+
                     if (!hellow.matcher(line).find()
                             && !exit.matcher(line).find()
                             && what.matcher(line).find()) {
