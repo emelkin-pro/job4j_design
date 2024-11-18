@@ -2,19 +2,32 @@ package ru.job4j.serialization.xml;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 
-public class Building {
+@XmlRootElement(name = "buildingxml")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class BuildingXML {
 
     private boolean isFinished;
     private int floors;
     private String street;
     private Movement movement;
+    @XmlElementWrapper(name = "apartments")
+    @XmlElement(name = "floor")
     private int[][] apartments;
 
-    public Building(boolean isFinished, int floors,
-                    String street, Movement movement, int[][] apartments) {
+    public BuildingXML() {
+    }
+
+    public BuildingXML(boolean isFinished, int floors,
+                       String street, Movement movement, int[][] apartments) {
         this.isFinished = isFinished;
         this.floors = floors;
         this.street = street;
@@ -62,10 +75,17 @@ public class Building {
         this.apartments = apartments;
     }
 
+    @XmlRootElement(name = "movement")
+    @XmlAccessorType(XmlAccessType.FIELD)
     private static class Movement {
+
         private int numberOfElevators;
         private int numberOfStairs;
         private int numberOfFireEscapes;
+
+        public Movement() {
+
+        }
 
         public Movement(int numberOfElevators, int numberOfStairs, int numberOfFireEscapes) {
             this.numberOfElevators = numberOfElevators;
@@ -118,7 +138,7 @@ public class Building {
                 + '}';
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         int[][] apartments = new int[3][3];
         int counter = 1;
         for (int i = 0; i < apartments.length; i++) {
@@ -127,10 +147,29 @@ public class Building {
                 counter++;
             }
         }
-        Building building = new Building(true, 10, "Московская",
+        BuildingXML buildingXML = new BuildingXML(true, 10, "Московская",
                 new Movement(2, 2, 1), apartments);
 
+        JAXBContext context = JAXBContext.newInstance(BuildingXML.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String xml = "";
+
+        try (StringWriter writer = new StringWriter()) {
+            /* Сериализуем */
+            marshaller.marshal(buildingXML, writer);
+            xml = writer.getBuffer().toString();
+            System.out.println(xml);
+        }
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        try (StringReader reader = new StringReader(xml)) {
+            /* десериализуем */
+            BuildingXML result = (BuildingXML) unmarshaller.unmarshal(reader);
+            System.out.println(result);
+        }
+
         final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(building));
+        System.out.println(gson.toJson(buildingXML));
     }
 }
