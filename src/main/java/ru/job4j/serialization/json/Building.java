@@ -2,6 +2,7 @@ package ru.job4j.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -131,7 +132,7 @@ public class Building {
                 new Movement(2, 2, 1), apartments);
 
         final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(building));
+        System.out.println(new JSONObject(building));
 
         String buldingStr =
                 "{"
@@ -148,6 +149,6 @@ public class Building {
                         + "[11,12,13,14,15,16,17,18,19,20]]"
                 + "}";
         final Building buildingFromJson = gson.fromJson(buldingStr, Building.class);
-        System.out.println(buildingFromJson);
+        System.out.println(new JSONObject(buildingFromJson));
     }
 }
