@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS contacts CASCADE;
-DROP TABLE IF EXISTS deals CASCADE;
-DROP TABLE IF EXISTS deals_contacts CASCADE;
+drop table IF EXISTS contacts CASCADE;
+drop table IF EXISTS deals CASCADE;
+drop table IF EXISTS deals_contacts CASCADE;
 
 create table contacts (
     contact_id serial primary key,
