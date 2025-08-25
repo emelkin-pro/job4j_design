@@ -56,11 +56,11 @@ INSERT INTO orders (amount, customer_id) VALUES
 
 SELECT *
 FROM customers
-WHERE age = (SELECT MIN(age) FROM customers)
+WHERE age = (SELECT MIN(age) FROM customers);
 
 SELECT *
 FROM customers
-WHERE customers.id NOT IN (SELECT customer_id FROM orders GROUP BY customer_id)
+WHERE customers.id NOT IN (SELECT customer_id FROM orders GROUP BY customer_id);
 
 
 
