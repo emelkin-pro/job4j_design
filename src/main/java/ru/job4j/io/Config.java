@@ -26,7 +26,6 @@ public class Config {
                             throw new IllegalArgumentException();
                         } else {
                             this.values.put(strArr[0], strArr[1]);
-                            System.out.println(strArr[0] + strArr[1]);
                         }
                     });
         } catch (IOException e) {

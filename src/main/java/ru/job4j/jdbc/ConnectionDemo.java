@@ -14,8 +14,7 @@ public class ConnectionDemo {
         Class.forName(config.value("hibernate.connection.driver_class"));
         String url = config.value("hibernate.connection.url");
         String login = config.value("hibernate.connection.username");
-        String password = config.value("hibernate.connection.username");
-        System.out.println(config.value("hibernate.connection.password"));
+        String password = config.value("hibernate.connection.password");
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
             System.out.println(metaData.getUserName());
