@@ -26,28 +26,49 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) throws SQLException {
-        String sql = String.format("CREATE TABLE IF NOT EXISTS %s();", tableName);
+        String sql = String.format(
+                "CREATE TABLE IF NOT EXISTS %s();",
+                tableName
+        );
         executeSQL(sql);
 
     }
 
     public void dropTable(String tableName) throws SQLException {
-        String sql = String.format("DROP TABLE IF EXISTS %s;", tableName);
+        String sql = String.format(
+                "DROP TABLE IF EXISTS %s;",
+                tableName
+        );
         executeSQL(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        String sql = String.format("ALTER TABLE %s ADD COLUMN %s %s", tableName, columnName, type);
+        String sql = String.format(
+                "ALTER TABLE %s ADD COLUMN %s %s",
+                tableName,
+                columnName,
+                type
+        );
         executeSQL(sql);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        String sql = String.format("ALTER TABLE %s DROP COLUMN %s", tableName, columnName);
+        String sql = String.format(
+                "ALTER TABLE %s DROP COLUMN %s",
+                tableName,
+                columnName
+        );
         executeSQL(sql);
     }
 
-    public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        String sql = String.format("ALTER TABLE %s RENAME COLUMN %s TO %s", tableName, columnName, newColumnName);
+    public void renameColumn(String tableName, String columnName, String newColumnName)
+            throws SQLException {
+        String sql = String.format(
+                "ALTER TABLE %s RENAME COLUMN %s TO %s",
+                tableName,
+                columnName,
+                newColumnName
+        );
         executeSQL(sql);
     }
 
@@ -58,10 +79,14 @@ public class TableEditor implements AutoCloseable {
         var buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
         buffer.add(header);
         try (var statement = connection.createStatement()) {
-            var selection = statement.executeQuery(String.format("SELECT * FROM %s LIMIT 1", tableName));
+            var selection = statement.executeQuery(String.format(
+                    "SELECT * FROM %s LIMIT 1", tableName
+            ));
             var metaData = selection.getMetaData();
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                buffer.add(String.format("%-15s|%-15s%n", metaData.getColumnName(i), metaData.getColumnTypeName(i)));
+                buffer.add(String.format("%-15s|%-15s%n",
+                        metaData.getColumnName(i), metaData.getColumnTypeName(i))
+                );
             }
         }
         return buffer.toString();
@@ -83,7 +108,8 @@ public class TableEditor implements AutoCloseable {
     public static void main(String[] args) throws Exception {
 
         Properties config = new Properties();
-        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = TableEditor.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
             config.load(in);
         }
 
