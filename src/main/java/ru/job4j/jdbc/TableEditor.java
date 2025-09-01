@@ -26,61 +26,29 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) throws SQLException {
-        String sql = String.format(
-                "CREATE TABLE IF NOT EXISTS %s();",
-                tableName
-        );
-        try (Statement statement = this.connection.createStatement()) {
-            statement.execute(sql);
-        }
+        String sql = String.format("CREATE TABLE IF NOT EXISTS %s();", tableName);
+        executeSQL(sql);
 
     }
 
     public void dropTable(String tableName) throws SQLException {
-        String sql = String.format(
-                "DROP TABLE IF EXISTS %s;",
-                tableName
-        );
-        try (Statement statement = this.connection.createStatement()) {
-            statement.execute(sql);
-        }
+        String sql = String.format("DROP TABLE IF EXISTS %s;", tableName);
+        executeSQL(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        String sql = String.format(
-                "ALTER TABLE %s ADD COLUMN %s %s",
-                tableName,
-                columnName,
-                type
-        );
-        try (Statement statement = this.connection.createStatement()) {
-            statement.execute(sql);
-        }
+        String sql = String.format("ALTER TABLE %s ADD COLUMN %s %s", tableName, columnName, type);
+        executeSQL(sql);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        String sql = String.format(
-                "ALTER TABLE %s DROP COLUMN %s",
-                tableName,
-                columnName
-        );
-        try (Statement statement = this.connection.createStatement()) {
-            statement.execute(sql);
-        }
+        String sql = String.format("ALTER TABLE %s DROP COLUMN %s", tableName, columnName);
+        executeSQL(sql);
     }
 
-    public void renameColumn(String tableName, String columnName, String newColumnName)
-            throws SQLException {
-        String sql = String.format(
-                "ALTER TABLE %s RENAME COLUMN %s TO %s",
-                tableName,
-                columnName,
-                newColumnName
-        );
-        try (Statement statement = this.connection.createStatement()) {
-            statement.execute(sql);
-        }
-
+    public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
+        String sql = String.format("ALTER TABLE %s RENAME COLUMN %s TO %s", tableName, columnName, newColumnName);
+        executeSQL(sql);
     }
 
     public String getTableScheme(String tableName) throws Exception {
@@ -90,17 +58,19 @@ public class TableEditor implements AutoCloseable {
         var buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
         buffer.add(header);
         try (var statement = connection.createStatement()) {
-            var selection = statement.executeQuery(String.format(
-                    "SELECT * FROM %s LIMIT 1", tableName
-            ));
+            var selection = statement.executeQuery(String.format("SELECT * FROM %s LIMIT 1", tableName));
             var metaData = selection.getMetaData();
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                buffer.add(String.format("%-15s|%-15s%n",
-                        metaData.getColumnName(i), metaData.getColumnTypeName(i))
-                );
+                buffer.add(String.format("%-15s|%-15s%n", metaData.getColumnName(i), metaData.getColumnTypeName(i)));
             }
         }
         return buffer.toString();
+    }
+
+    private void executeSQL(String sql) throws SQLException {
+        try (Statement statement = this.connection.createStatement()) {
+            statement.execute(sql);
+        }
     }
 
     @Override
@@ -113,30 +83,14 @@ public class TableEditor implements AutoCloseable {
     public static void main(String[] args) throws Exception {
 
         Properties config = new Properties();
-        try (InputStream in = TableEditor.class.getClassLoader()
-                .getResourceAsStream("app.properties")) {
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
             config.load(in);
         }
-        String url = config.getProperty("url");
-        String username = config.getProperty("username");
-        String password = config.getProperty("password");
-        String driver = config.getProperty("driver_class");
-
-        System.out.println(url);
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(driver);
 
         TableEditor tableEditor = new TableEditor(config);
 
         try (Connection connection = tableEditor.initConnection()) {
             try (Statement statement = connection.createStatement()) {
-                String sql = String.format(
-                        "CREATE TABLE IF NOT EXISTS demo_table(%s, %s);",
-                        "id SERIAL PRIMARY KEY",
-                        "name TEXT"
-                );
-
                 tableEditor.dropTable("table1");
 
                 System.out.println("Создание");
