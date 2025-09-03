@@ -29,7 +29,7 @@ public class ImportDB {
                 Arrays.stream(x.trim().split(";", 2)).forEach(strArr::add);
                 if (strArr.size() == 2) {
                     for (String str : strArr) {
-                        if (str == null || "".equals(str)) {
+                        if (str == null || str.isBlank()) {
                             throw new IllegalArgumentException("Пустой параметр");
                         }
                     }
