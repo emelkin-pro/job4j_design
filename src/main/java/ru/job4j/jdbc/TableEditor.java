@@ -137,7 +137,6 @@ public class TableEditor implements AutoCloseable {
 
                 System.out.println("Удаление таблицы");
                 tableEditor.dropTable("table1");
-
             }
         }
     }
